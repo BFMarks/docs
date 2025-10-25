@@ -1,0 +1,21 @@
+/* Apply gradient to headings */
+h1, h2, .mint-heading {
+  background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Apply gradient to primary buttons */
+.mint-button-primary {
+  background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+  border: none;
+}
+
+/* Apply gradient to links */
+a.mint-link {
+  background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
