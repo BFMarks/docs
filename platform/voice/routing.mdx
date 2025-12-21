@@ -1,0 +1,204 @@
+---
+title: 'Voice Routing'
+description: 'Configure intelligent conversation routing and variable extraction'
+---
+
+## Overview
+
+Voice routing allows your AI agent to analyze conversations and direct users down different paths based on their responses. Each route can extract specific variables that can be used later in your workflow.
+
+## How Routing Works
+
+During a phone conversation, the AI:
+
+1. **Listens** to the customer's responses
+2. **Analyzes** the intent and content
+3. **Selects** the most appropriate route
+4. **Extracts** variables from the conversation
+5. **Continues** to the next step in your workflow
+
+## Creating a Route
+
+Each messaging node can have multiple routes. To create a route:
+
+1. Navigate to your voice node
+2. Click on the **Call Routes** tab
+3. Click **+ Add Custom Route**
+4. Configure the route settings
+
+## Route Configuration
+
+### Route Title
+
+Give your route a clear, descriptive name:
+
+```
+Good examples:
+- "Product Not Received"
+- "Order Status Inquiry"
+- "Request Refund"
+- "General Questions"
+```
+
+### Custom Instructions for AI Analysis
+
+Provide clear instructions that tell the AI when to choose this route:
+
+<CodeGroup>
+
+```text Good Example
+Use this route if the user mentions they haven't received their package yet.
+```
+
+```text Bad Example
+Customer issues
+```
+
+</CodeGroup>
+
+<Tip>
+  Be specific and avoid ambiguity. The clearer your instructions, the better the AI will route conversations.
+</Tip>
+
+## Variable Extraction
+
+### Variable Types
+
+You can extract four types of variables from conversations:
+
+<AccordionGroup>
+  <Accordion title="Text" icon="font">
+    Any string of text
+
+    **Example:** Customer name, product description, feedback comments
+  </Accordion>
+
+  <Accordion title="Date" icon="calendar">
+    Date values that the AI will parse and format
+
+    **Example:** Order date, delivery date, appointment time
+  </Accordion>
+
+  <Accordion title="Number" icon="hashtag">
+    Numeric values including integers and decimals
+
+    **Example:** Order number, quantity, amount paid
+  </Accordion>
+
+  <Accordion title="Boolean (Yes/No)" icon="toggle-on">
+    True/false values based on customer confirmation
+
+    **Example:** "Has the product arrived?" "Do you want a refund?"
+  </Accordion>
+</AccordionGroup>
+
+### Adding Variables to a Route
+
+1. In your route configuration, click **+ Add Variable**
+2. Enter a variable name (use underscore format: `order_number`)
+3. Select the variable type
+4. Add additional context if needed
+
+### Variable Naming
+
+Use clear, consistent naming:
+
+✅ **Good:**
+- `tracking_number`
+- `order_date`
+- `customer_name`
+- `refund_amount`
+
+❌ **Avoid:**
+- `var1`
+- `data`
+- `info`
+- Mixed casing like `orderNumber`
+
+## Important: Voice vs Email/SMS Routing
+
+<Warning>
+  Voice routing works differently than email and SMS routing!
+</Warning>
+
+### Voice Routing
+
+For **voice calls**, your prompt must explicitly ask for the information you want to extract:
+
+```text Example Prompt
+Thank you for calling. I'll help you track your order.
+Can I get your order number and the date you placed the order?
+```
+
+If your prompt doesn't ask for the variable, the AI cannot extract it during the call.
+
+### Email/SMS Routing
+
+For **email and SMS**, the AI will automatically ask follow-up questions until it collects all required variables. You don't need to include questions in your prompt.
+
+## Using Extracted Variables
+
+Once extracted, variables can be used in subsequent nodes using double curly braces:
+
+```
+Hello {{customer_name}},
+
+Your order {{order_number}} is being processed.
+```
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Be Specific" icon="bullseye">
+    Write clear, unambiguous routing instructions
+  </Card>
+  <Card title="Avoid Overlap" icon="not-equal">
+    Make sure routes are mutually exclusive
+  </Card>
+  <Card title="Test Thoroughly" icon="vial">
+    Call your bot and test each route
+  </Card>
+  <Card title="Use Fallbacks" icon="life-ring">
+    Include a general route for unclear requests
+  </Card>
+</CardGroup>
+
+## Example Route Configuration
+
+Here's a complete example for a product inquiry route:
+
+**Route Name:** `Product Status Inquiry`
+
+**Custom Instructions:**
+```text
+Use this route if the customer hasn't received their product and wants
+to know the status of their order.
+```
+
+**Variables to Extract:**
+- `order_number` (Number) - The customer's order number
+- `order_date` (Date) - When they placed the order
+
+**Voice Prompt:**
+```text
+I can help you check on your order status. Can you please provide
+your order number and the date you placed the order?
+```
+
+## Activating Your Workflow
+
+Once you've configured your routes:
+
+1. Click the **Test** button (if available) to verify routing logic
+2. Toggle the workflow to **Active** in the top left corner
+3. Make test calls to verify behavior
+
+<Check>
+  Your voice routing is now set up and ready to intelligently handle customer conversations!
+</Check>
+
+## Next Steps
+
+- [View voice analytics and logs](/platform/voice/analytics)
+- [Learn about variables](/platform/reference/variables)
+- [Set up SMS workflows](/platform/sms/setup)

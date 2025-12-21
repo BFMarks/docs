@@ -1,0 +1,224 @@
+---
+title: 'SMS Setup'
+description: 'Configure SMS messaging for your workflows'
+---
+
+## Overview
+
+Cloom AI supports SMS messaging through Twilio and Infobip, allowing you to create intelligent text message workflows that can respond to customer inquiries automatically.
+
+## Prerequisites
+
+Before setting up SMS, you'll need:
+
+- A Twilio or Infobip account
+- A dedicated SMS number
+- Your Cloom AI account with appropriate permissions
+
+## Phone Number Format
+
+SMS numbers must be in E.164 format:
+
+✅ **Correct:**
+- `+16673270565`
+- `+442071234567`
+- `+61412345678`
+
+❌ **Incorrect:**
+- `+1 667 327 0565` (contains spaces)
+- `(667) 327-0565` (wrong format)
+- `6673270565` (missing country code)
+
+<Note>
+  Always include the country code and remove any spaces, dashes, or parentheses.
+</Note>
+
+## Setting Up SMS with Twilio
+
+### Step 1: Configure Twilio Webhook
+
+In your Twilio console:
+
+1. Navigate to your phone number settings
+2. Find the **Messaging** section
+3. Set the webhook URL to: `https://api.cloom.ai/messaging/twilio-sms-webhook/`
+4. Set the HTTP method to **POST**
+5. Save your changes
+
+<img src="/images/twilio-webhook.png" alt="Twilio webhook configuration" />
+
+### Step 2: Add Number to Cloom
+
+Contact your Cloom AI representative to add your Twilio number to your account. Provide:
+
+- Your phone number in E.164 format
+- Your project name
+- Which workflow should handle messages to this number
+
+<Warning>
+  Currently, Twilio numbers must be manually configured. Infobip dynamic setup is coming soon.
+</Warning>
+
+## Creating an SMS Node
+
+In your Cloom AI workflow:
+
+1. Click **Create Agent Journey** or **Start & Integrate**
+2. Select **Incoming SMS** as the start node type (if receiving messages)
+3. Or add an **SMS** node anywhere in your workflow (for sending messages)
+
+## SMS Template Editor
+
+### Message Content
+
+Create your SMS message template:
+
+**Name**
+- Give your template a descriptive name (e.g., "Order Status Reply")
+
+**Message**
+- Write your SMS message content
+- Keep it under 160 characters for single SMS
+- Use variables to personalize: `{{customer_name}}`
+
+```text Example SMS
+Gracias por su llamada y por sus preguntas. No dude en
+ponerse en contacto con nosotros si tiene alguna otra
+pregunta. - Elegi+
+```
+
+### Character Count
+
+The editor shows your character count:
+- 127/160 - Within single SMS limit ✅
+- 180/160 - Will send as 2 messages ⚠️
+
+<Tip>
+  Messages over 160 characters will be sent as multiple SMS messages, which may increase costs.
+</Tip>
+
+## SMS Routing
+
+SMS routing works differently than voice:
+
+### Automatic Follow-ups
+
+Unlike voice calls, SMS bots will **automatically ask follow-up questions** until they have all required information.
+
+**Example Flow:**
+
+```
+Bot: Thanks for reaching out! I can help track your order.
+
+User: Where is my package?
+
+Bot: I'd be happy to help! Can you provide your order number?
+
+User: 123456
+
+Bot: Thank you! When did you place this order?
+
+User: December 10th
+
+Bot: [Proceeds to next node with order_number=123456 and order_date=Dec 10]
+```
+
+### Mandatory Variables
+
+Configure which variables must be collected before proceeding:
+
+1. Navigate to the **Routes** tab
+2. Select your route
+3. Add variables under **Mandatory Variables**
+4. The AI will ask for any missing variables automatically
+
+<img src="/images/sms-mandatory-variables.png" alt="SMS mandatory variables" />
+
+## Testing Your SMS
+
+To test your SMS workflow:
+
+1. Ensure your workflow is activated (toggle in top left)
+2. Click **Send Test** in the SMS Template Editor
+3. Enter your phone number
+4. Click **Send Test SMS**
+5. Reply to the message to test the conversation flow
+
+<img src="/images/sms-send-test.png" alt="Send test SMS" />
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Keep Messages Concise" icon="compress">
+    SMS is a brief medium. Get to the point quickly and avoid lengthy explanations.
+  </Accordion>
+
+  <Accordion title="Use Clear CTAs" icon="hand-pointer">
+    Tell users exactly what to do next: "Reply with your order number" or "Text STOP to unsubscribe"
+  </Accordion>
+
+  <Accordion title="Brand Your Messages" icon="signature">
+    End messages with your brand name or signature (e.g., "- Elegi+")
+  </Accordion>
+
+  <Accordion title="Respect Opt-Outs" icon="ban">
+    Always honor unsubscribe requests and comply with SMS regulations in your region
+  </Accordion>
+
+  <Accordion title="Test Thoroughly" icon="vial">
+    Send test messages to multiple devices and carriers before going live
+  </Accordion>
+</AccordionGroup>
+
+## Viewing SMS Logs
+
+To view SMS conversation history:
+
+1. Navigate to your workflow
+2. Click the menu in the top right
+3. Select **SMS Logs** (if available)
+
+## Compliance & Regulations
+
+<Warning>
+  Make sure your SMS usage complies with regulations in your region:
+
+  - **USA**: Follow TCPA guidelines and obtain proper consent
+  - **EU**: Comply with GDPR requirements
+  - **Other regions**: Check local telecommunications regulations
+</Warning>
+
+## Troubleshooting
+
+### Messages Not Sending
+
+If SMS messages aren't sending:
+- Verify the phone number format (E.164)
+- Check that the Twilio webhook is correctly configured
+- Ensure your Twilio account has sufficient credits
+- Confirm the workflow is activated
+
+### Not Receiving Replies
+
+If you're not receiving customer replies:
+- Verify the webhook URL is correct
+- Check Twilio's debugger for error messages
+- Ensure the phone number is properly configured in Cloom
+
+### Variables Not Extracting
+
+If variables aren't being extracted:
+- Review your routing instructions for clarity
+- Check SMS logs to see the AI's responses
+- Ensure variable names match your template usage
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Email Setup" icon="envelope" href="/platform/email/outbound-setup">
+    Configure email messaging
+  </Card>
+  <Card title="Variables Reference" icon="code" href="/platform/reference/variables">
+    Learn about using variables
+  </Card>
+</CardGroup>

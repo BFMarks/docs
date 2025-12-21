@@ -1,0 +1,230 @@
+---
+title: 'Email Branding'
+description: 'Customize your email appearance and brand voice'
+---
+
+## Overview
+
+The Brand Manager allows you to customize how your AI-generated emails look and sound, ensuring consistency with your company's brand identity.
+
+## Accessing Brand Manager
+
+1. Navigate to your workflow
+2. Click the menu in the top right
+3. Select **Brand Manager**
+
+<img src="/images/brand-manager-menu.png" alt="Access Brand Manager" />
+
+## Automatic Brand Extraction
+
+Cloom AI can automatically pull your brand information from your website:
+
+### Quick Setup
+
+1. Go to [https://www.cloom.ai/build-assets](https://www.cloom.ai/build-assets)
+2. Enter your company website URL
+3. Click **Extract Brand**
+
+Cloom AI will automatically analyze your website and extract:
+
+- **Brand Colors** - Primary, secondary, and accent colors
+- **Logo** - Your company logo from the homepage
+- **Brand Voice** - Tone and writing style based on your content
+- **Typography** - Font preferences (where applicable)
+
+<Note>
+  The AI analyzes your website's content, design, and messaging to understand your brand personality.
+</Note>
+
+## Manual Brand Configuration
+
+Alternatively, you can manually configure your brand settings:
+
+### Brand Voice
+
+Define how your AI should communicate:
+
+<ParamField path="Brand Voice Description" type="string">
+  Describe your brand's communication style
+
+  **Examples:**
+  - "Professional and helpful, with a warm and friendly tone"
+  - "Concise and direct, focused on problem-solving"
+  - "Casual and conversational, like talking to a friend"
+  - "Formal and authoritative, emphasizing expertise"
+</ParamField>
+
+### Brand Colors
+
+<ParamField path="Primary Color" type="color">
+  Your main brand color (used for buttons, headers, accents)
+</ParamField>
+
+<ParamField path="Secondary Color" type="color">
+  Supporting color for variety
+</ParamField>
+
+<ParamField path="Accent Color" type="color">
+  Highlight color for calls-to-action
+</ParamField>
+
+### Logo
+
+<ParamField path="Logo URL" type="string">
+  Direct link to your logo file
+
+  **Supported formats:** PNG, SVG, JPG
+
+  **Recommended size:** 200x60px to 400x120px
+</ParamField>
+
+## How Branding Affects Emails
+
+Your brand settings influence:
+
+### Visual Design
+
+- Email header colors
+- Button styling
+- Logo placement
+- Overall color scheme
+
+### Content Tone
+
+The AI uses your brand voice description to:
+- Choose appropriate language and phrasing
+- Match your company's communication style
+- Maintain consistent tone across all automated emails
+- Adjust formality level
+
+### Example Comparison
+
+<CodeGroup>
+
+```text Professional Brand Voice
+Dear valued customer,
+
+Thank you for reaching out regarding order #123456. We have
+located your shipment and can confirm it is currently in transit.
+
+You can expect delivery within 2-3 business days.
+
+Best regards,
+Your Company Name
+```
+
+```text Casual Brand Voice
+Hey there!
+
+Thanks for checking in about order #123456! Good news - we
+found your package and it's on its way to you.
+
+Should be at your door in 2-3 days 📦
+
+Cheers,
+Your Company Name
+```
+
+</CodeGroup>
+
+## Using Brand in Email Generation
+
+When creating email content nodes, reference your brand:
+
+1. The AI will automatically use your brand voice
+2. Generated emails will match your style
+3. Colors and logo apply to email templates
+
+### AI-Assisted Email Writing
+
+When using the email builder:
+
+```
+Prompt: "Write a friendly response confirming the order status"
+
+Result: The AI generates content matching your brand voice,
+whether that's professional, casual, or somewhere in between.
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Consistency is Key" icon="check-double">
+    Use the same brand voice across all workflows and channels (email, SMS, voice)
+  </Accordion>
+
+  <Accordion title="Test Different Tones" icon="flask">
+    A/B test different brand voice descriptions to see what resonates with customers
+  </Accordion>
+
+  <Accordion title="Update Regularly" icon="arrows-rotate">
+    If your brand evolves, update your brand settings to reflect changes
+  </Accordion>
+
+  <Accordion title="Keep It Simple" icon="circle">
+    Brand voice descriptions work best when clear and concise
+  </Accordion>
+</AccordionGroup>
+
+## Brand Voice Examples
+
+Choose a voice that matches your industry and audience:
+
+<CardGroup cols={2}>
+  <Card title="E-commerce" icon="cart-shopping">
+    "Friendly and enthusiastic, focused on customer satisfaction and quick resolution"
+  </Card>
+
+  <Card title="Financial Services" icon="building-columns">
+    "Professional and trustworthy, providing clear explanations with attention to detail"
+  </Card>
+
+  <Card title="Healthcare" icon="heart-pulse">
+    "Compassionate and informative, balancing empathy with medical accuracy"
+  </Card>
+
+  <Card title="Technology" icon="laptop-code">
+    "Clear and helpful, breaking down complex topics into understandable language"
+  </Card>
+
+  <Card title="Legal Services" icon="scale-balanced">
+    "Formal and precise, maintaining professionalism while being approachable"
+  </Card>
+
+  <Card title="Education" icon="graduation-cap">
+    "Encouraging and supportive, making information accessible and engaging"
+  </Card>
+</CardGroup>
+
+## Previewing Brand Changes
+
+After updating your brand settings:
+
+1. Send a test email using your workflow
+2. Review the tone and visual appearance
+3. Make adjustments as needed
+4. Repeat until satisfied
+
+<Tip>
+  Send test emails to multiple email clients (Gmail, Outlook, Apple Mail) to ensure consistent rendering.
+</Tip>
+
+## Workflow-Specific Branding
+
+You can configure different brand settings for different workflows:
+
+- **Customer Support** - Empathetic and solution-focused
+- **Sales** - Enthusiastic and persuasive
+- **Billing** - Professional and clear
+- **Internal** - Direct and efficient
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Create Email Workflows" icon="diagram-project" href="/platform/email/inbound-setup">
+    Build email automation workflows
+  </Card>
+  <Card title="Variables Reference" icon="code" href="/platform/reference/variables">
+    Learn about email personalization
+  </Card>
+</CardGroup>

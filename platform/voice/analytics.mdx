@@ -1,0 +1,225 @@
+---
+title: 'Voice Analytics'
+description: 'Monitor and analyze your voice call performance'
+---
+
+## Overview
+
+The Voice Analytics section provides comprehensive insights into your voice bot's performance, including call logs, transcripts, recordings, and key metrics.
+
+## Accessing Voice Logs
+
+To view your voice call logs:
+
+1. Navigate to your workflow
+2. Click the menu button in the top right
+3. Select **Voice Logs**
+
+<img src="/images/voice-logs-menu.png" alt="Access voice logs" />
+
+## Call Dashboard
+
+The voice analytics dashboard displays:
+
+### Key Metrics
+
+<CardGroup cols={4}>
+  <Card title="Total Calls" icon="phone">
+    Number of calls received
+  </Card>
+  <Card title="Human Answered" icon="user">
+    Calls successfully handled by the AI
+  </Card>
+  <Card title="Voicemail" icon="voicemail">
+    Calls that went to voicemail
+  </Card>
+  <Card title="Wrong Number" icon="ban">
+    Misdirected or spam calls
+  </Card>
+  <Card title="Contact Rate" icon="percent">
+    Percentage of successful connections
+  </Card>
+  <Card title="Avg Duration" icon="clock">
+    Average call length
+  </Card>
+</CardGroup>
+
+### Calls Over Time
+
+View a chart showing call volume over the last 7 days to identify trends and peak usage times.
+
+## Filtering Calls
+
+Use filters to find specific calls:
+
+**Date Range**
+- All Time
+- Last 7 Days
+- Last 30 Days
+- Custom date range
+
+**Call Result**
+- All Results
+- Human Answered
+- Voicemail
+- Wrong Number
+
+**Language**
+- All Languages
+- English
+- Spanish
+- Other supported languages
+
+**Search**
+- Search by phone number
+
+## Exporting Data
+
+Export your call logs for analysis:
+
+1. Apply any desired filters
+2. Click **Export CSV** or **Export Excel**
+3. Download the file containing:
+   - Call timestamps
+   - Duration
+   - Phone numbers
+   - Call outcomes
+   - Routes taken
+   - Variables extracted
+
+## Call Details
+
+Click on any call to view detailed information:
+
+### Call Information
+
+<ParamField path="From" type="string">
+  The caller's phone number
+</ParamField>
+
+<ParamField path="To" type="string">
+  Your bot's phone number
+</ParamField>
+
+<ParamField path="Business" type="string">
+  Project name
+</ParamField>
+
+<ParamField path="Date" type="string">
+  Call date and time
+</ParamField>
+
+<ParamField path="Started" type="string">
+  When the call began
+</ParamField>
+
+<ParamField path="Ended" type="string">
+  When the call ended
+</ParamField>
+
+### Conversation Transcript
+
+View the complete conversation between the caller and your AI agent:
+
+```
+AI: Hello! Roy of classifieds virtual as Argenprom para ayudante
+    con las cosas de Tiendai RHA...
+
+User: Gracias.
+
+AI: Perfecto! El sistema de puntos de Elegi Más te permite acumular
+    puntos con tus compras y luego canjearlos por productos en
+    nuestro catálogo...
+```
+
+The transcript shows:
+- **AI** messages - What your bot said
+- **User** messages - What the caller said
+- Timestamps for each interaction
+
+### Recording
+
+Listen to the actual call recording:
+
+- Play/pause the recording
+- Scrub through the timeline
+- Adjust volume
+- Download the recording for offline review
+
+<Note>
+  Call recordings are stored securely and are accessible to users with appropriate permissions.
+</Note>
+
+## Using Analytics to Improve
+
+### Identify Common Issues
+
+Review transcripts to find:
+- Frequently asked questions not covered in your knowledge base
+- Routes that need clearer instructions
+- Variables that aren't being extracted correctly
+
+### Optimize Call Flows
+
+Use analytics to:
+- Identify the most common routes taken
+- Find bottlenecks in conversations
+- Improve voice prompts based on user confusion
+- Adjust routing logic for better accuracy
+
+### Monitor Performance
+
+Track metrics over time:
+- Are call durations increasing or decreasing?
+- Is the contact rate improving?
+- Are certain times of day busier than others?
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Regular Review" icon="calendar-check">
+    Review call logs weekly to identify trends and issues early.
+  </Accordion>
+
+  <Accordion title="Sample Listening" icon="headphones">
+    Listen to a sample of calls regularly to understand the user experience.
+  </Accordion>
+
+  <Accordion title="Route Analysis" icon="chart-pie">
+    Track which routes are most commonly used and optimize those paths.
+  </Accordion>
+
+  <Accordion title="Variable Accuracy" icon="bullseye">
+    Verify that variables are being extracted correctly by spot-checking transcripts.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+### No Calls Showing
+
+If you don't see any calls:
+- Verify your phone number is correctly configured
+- Check that your workflow is activated
+- Confirm the ElevenLabs webhook is set up correctly
+- Test by calling the number directly
+
+### Missing Recordings
+
+If recordings aren't available:
+- Check that recording is enabled in your ElevenLabs agent settings
+- Verify webhook events include audio data
+- Contact support if the issue persists
+
+### Incorrect Transcripts
+
+If transcripts seem inaccurate:
+- Review the actual recording to compare
+- Consider adjusting your ElevenLabs agent's language settings
+- Check for background noise or poor connection quality
+
+## Next Steps
+
+- [Configure voice routing](/platform/voice/routing)
+- [Set up email workflows](/platform/email/outbound-setup)
+- [Learn about variables](/platform/reference/variables)

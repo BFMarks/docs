@@ -1,0 +1,141 @@
+---
+title: 'Incoming Voice Setup'
+description: 'Configure incoming voice calls with ElevenLabs integration'
+---
+
+## Overview
+
+Cloom AI integrates with [ElevenLabs](https://elevenlabs.io) to power conversational voice agents. This guide walks you through setting up an incoming voice workflow.
+
+## Prerequisites
+
+Before you begin, you'll need:
+
+- An ElevenLabs account with an agent created
+- A phone number from Twilio or Infobip
+- Your ElevenLabs Agent ID and Webhook Signature
+
+## Step 1: Create Agent in ElevenLabs
+
+First, create your conversational agent in the ElevenLabs platform:
+
+1. Log in to your ElevenLabs account
+2. Create a new conversational agent
+3. Configure the voice and behavior settings
+4. Note your **Agent ID** (format: `agent_123XXX`)
+5. Get your **Webhook Signature** (format: `wsec_10XX`)
+
+<Note>
+  Contact your Cloom AI representative if you need assistance obtaining your webhook signature.
+</Note>
+
+## Step 2: Configure Webhook in ElevenLabs
+
+Configure the post-call webhook in your ElevenLabs agent settings:
+
+1. Go to your agent settings in ElevenLabs
+2. Navigate to **Post-Call Webhook** section
+3. Add webhook URL: `https://api.cloom.ai/messaging/elevenlabs/webhook/`
+4. Select **Webhook Events**:
+   - ✅ Transcript
+   - Audio (optional)
+   - Call Initiation Failures (optional)
+
+<img src="/images/elevenlabs-webhook.png" alt="ElevenLabs webhook configuration" />
+
+## Step 3: Create Incoming Voice Node in Cloom
+
+In your Cloom AI workflow:
+
+1. Click **Create Agent Journey** or **Start & Integrate** button
+2. Select **Incoming Voice** as the start node type
+3. Navigate to the **Voice Prompt** tab
+4. Click **+ New Configuration**
+
+## Step 4: Add Agent Configuration
+
+Enter your ElevenLabs agent details:
+
+<ParamField path="Configuration Title" type="string" required>
+  A descriptive name for this agent configuration (e.g., "Customer Support Bot")
+</ParamField>
+
+<ParamField path="Agent ID" type="string" required>
+  Your ElevenLabs Agent ID (e.g., `agent_9681kc7qjzxIfa a9rgak2tncbm4s`)
+</ParamField>
+
+<Tip>
+  Find your Agent ID in ElevenLabs Dashboard → Your Agent → Settings
+</Tip>
+
+## Step 5: Configure Phone Numbers
+
+Add phone numbers that will trigger this workflow:
+
+1. Switch to the **Phone Numbers** tab
+2. Click **Add New Number**
+3. Enter the phone number in E.164 format (e.g., `+15415252343`)
+   - Include the country code
+   - No spaces or special characters
+   - Example: `+1` (country code) + `5415252343` (phone number)
+4. Click **Add** to assign the number
+
+<Warning>
+  Each phone number must be unique to one incoming voice node. The system helps prevent duplicates, but always verify your numbers are not already in use.
+</Warning>
+
+## Phone Number Format
+
+Make sure your phone numbers follow the E.164 format:
+
+✅ **Correct:**
+- `+15415252343`
+- `+442071234567`
+- `+61412345678`
+
+❌ **Incorrect:**
+- `+1 541 525 2343` (contains spaces)
+- `(541) 525-2343` (wrong format)
+- `5415252343` (missing country code)
+
+## Provider Setup
+
+### Twilio Numbers
+
+If using a Twilio number, ensure the webhook is configured in your Twilio console to point to Cloom AI's incoming call handler.
+
+### Infobip Numbers
+
+If using an Infobip number, contact your Cloom AI representative for setup assistance as the configuration differs from Twilio.
+
+## Verifying Configuration
+
+Once configured, your incoming voice node will display:
+
+- ✅ Voice Provider: ElevenLabs (Cloom v2)
+- ✅ Agent Configuration with title and Agent ID
+- ✅ Assigned phone number(s)
+
+## Testing Your Setup
+
+To test your voice bot:
+
+1. Activate the workflow using the toggle in the top left
+2. Call the phone number you configured
+3. Have a conversation with your agent
+4. Review the call logs in **Voice Logs** section
+
+<Check>
+  If your agent answers and responds appropriately, your setup is complete!
+</Check>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Configure Voice Routing" icon="route" href="/platform/voice/routing">
+    Set up conversation routing and variable extraction
+  </Card>
+  <Card title="View Voice Analytics" icon="chart-line" href="/platform/voice/analytics">
+    Monitor and analyze your voice conversations
+  </Card>
+</CardGroup>

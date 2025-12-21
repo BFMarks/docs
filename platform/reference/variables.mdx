@@ -1,0 +1,339 @@
+---
+title: 'Variables Reference'
+description: 'Complete guide to using variables in your Cloom AI workflows'
+---
+
+## Overview
+
+Variables allow you to capture, store, and reuse data throughout your workflows. Cloom AI provides three types of variables that you can use to personalize messages and build dynamic workflows.
+
+## Variable Syntax
+
+All variables use double curly brace syntax:
+
+```
+{{variable_name}}
+```
+
+Variables can be used in:
+- Email subject lines and body content
+- SMS message templates
+- Voice prompts (limited)
+- Conditional routing logic
+- API calls and webhooks
+
+## Variable Types
+
+<CardGroup cols={3}>
+  <Card title="User Data" icon="user">
+    Basic contact information and business details
+  </Card>
+  <Card title="Route Variables" icon="route">
+    Data extracted from conversations
+  </Card>
+  <Card title="Event Data" icon="database">
+    Workflow metadata and conversation history
+  </Card>
+</CardGroup>
+
+## 1. User Data Variables
+
+Access basic contact and business information directly:
+
+### Contact Information
+
+<ParamField path="{{name}}" type="string">
+  The contact's full name
+</ParamField>
+
+<ParamField path="{{email}}" type="string">
+  The contact's email address
+</ParamField>
+
+<ParamField path="{{subject}}" type="string">
+  The original email subject line (email workflows only)
+</ParamField>
+
+### Business Information
+
+<ParamField path="{{business.name}}" type="string">
+  Your company name as configured in Cloom AI
+</ParamField>
+
+<ParamField path="{{business.id}}" type="string">
+  Unique identifier for your business in Cloom AI
+</ParamField>
+
+### Example Usage
+
+```text Email Template
+Hello {{name}},
+
+Thank you for contacting {{business.name}}. We received your
+message about "{{subject}}" and are here to help.
+
+Best regards,
+{{business.name}} Team
+```
+
+**Output:**
+```text
+Hello John Smith,
+
+Thank you for contacting Acme Corp. We received your
+message about "Order Status Inquiry" and are here to help.
+
+Best regards,
+Acme Corp Team
+```
+
+## 2. Route Variables (Extracted Data)
+
+Route variables are extracted from user conversations based on your workflow configuration.
+
+### How Route Variables Work
+
+1. You define variables in your route configuration
+2. The AI analyzes the conversation
+3. The AI extracts relevant information
+4. Variables become available for use in subsequent nodes
+
+### Variable Types
+
+When creating route variables, choose from:
+
+<AccordionGroup>
+  <Accordion title="Text" icon="font">
+    Any string of text
+
+    **Examples:**
+    - `{{routes.customer_name}}`
+    - `{{routes.product_description}}`
+    - `{{routes.feedback_comment}}`
+  </Accordion>
+
+  <Accordion title="Date" icon="calendar">
+    Date values (automatically parsed and formatted)
+
+    **Examples:**
+    - `{{routes.order_date}}`
+    - `{{routes.delivery_date}}`
+    - `{{routes.appointment_time}}`
+  </Accordion>
+
+  <Accordion title="Number" icon="hashtag">
+    Numeric values (integers or decimals)
+
+    **Examples:**
+    - `{{routes.order_number}}`
+    - `{{routes.quantity}}`
+    - `{{routes.refund_amount}}`
+  </Accordion>
+
+  <Accordion title="Boolean" icon="toggle-on">
+    True/false values
+
+    **Examples:**
+    - `{{routes.wants_refund}}`
+    - `{{routes.product_arrived}}`
+    - `{{routes.email_consent}}`
+  </Accordion>
+</AccordionGroup>
+
+### Naming Convention
+
+Use descriptive, lowercase names with underscores:
+
+✅ **Good:**
+- `{{routes.tracking_number}}`
+- `{{routes.order_date}}`
+- `{{routes.customer_complaint}}`
+
+❌ **Avoid:**
+- `{{routes.var1}}`
+- `{{routes.TrackingNumber}}`
+- `{{routes.data}}`
+
+### Example: Order Status Workflow
+
+**Route Configuration:**
+- Variable: `order_number` (Number)
+- Variable: `order_date` (Date)
+
+**Usage in Email:**
+```text
+Hi {{name}},
+
+We've located your order #{{routes.order_number}} from
+{{routes.order_date}}.
+
+Your package is currently in transit and should arrive within
+2-3 business days.
+```
+
+**Output:**
+```text
+Hi Sarah Johnson,
+
+We've located your order #123456 from December 10, 2025.
+
+Your package is currently in transit and should arrive within
+2-3 business days.
+```
+
+## 3. Event Data (Workflow Metadata)
+
+Event data provides access to workflow routing decisions, conversation metadata, and AI reasoning.
+
+### Routing Information
+
+<ParamField path="{{event_data.inbound_email.route}}" type="string">
+  The name of the route that was selected
+
+  **Example:** "Product Not Received"
+</ParamField>
+
+<ParamField path="{{event_data.last_email_response.reasoning}}" type="string">
+  The AI's explanation for why it chose this route
+</ParamField>
+
+### Conversation History
+
+<ParamField path="{{event_data.last_email_response.responded_at}}" type="datetime">
+  Timestamp of the last AI response
+</ParamField>
+
+<ParamField path="{{event_data.inbound_email.sender_email}}" type="string">
+  Email address of the person who initiated the conversation
+</ParamField>
+
+### Example Usage
+
+```text Internal Notification
+New support ticket routed via: {{event_data.inbound_email.route}}
+
+Customer: {{event_data.inbound_email.sender_email}}
+Received: {{event_data.last_email_response.responded_at}}
+
+AI Reasoning: {{event_data.last_email_response.reasoning}}
+```
+
+## Variable Best Practices
+
+<AccordionGroup>
+  <Accordion title="Always Have Fallbacks" icon="life-ring">
+    Not all variables may be available. Plan for missing data:
+
+    ```text
+    Hello {{name}}!
+
+    (or if name is missing)
+
+    Hello there!
+    ```
+  </Accordion>
+
+  <Accordion title="Use Descriptive Names" icon="tag">
+    Make variable names self-documenting:
+    - `tracking_number` ✅
+    - `tn` ❌
+  </Accordion>
+
+  <Accordion title="Test Thoroughly" icon="vial">
+    Send test messages to verify variables populate correctly
+  </Accordion>
+
+  <Accordion title="Document Your Variables" icon="book">
+    Keep a list of variables used in each workflow for team reference
+  </Accordion>
+</AccordionGroup>
+
+## Common Use Cases
+
+### Personalized Greetings
+
+```text
+Hello {{name}},
+
+Thank you for reaching out to {{business.name}}.
+```
+
+### Order Tracking
+
+```text
+Your order #{{routes.order_number}} from {{routes.order_date}}
+is {{routes.order_status}}.
+```
+
+### Appointment Confirmation
+
+```text
+This confirms your appointment on {{routes.appointment_date}}
+at {{routes.appointment_time}} with {{routes.provider_name}}.
+```
+
+### Support Ticket Reference
+
+```text
+Ticket #{{routes.ticket_number}} - {{routes.issue_category}}
+
+Opened: {{event_data.inbound_email.received_at}}
+Status: {{routes.ticket_status}}
+```
+
+## Conditional Logic (Advanced)
+
+Some nodes support conditional logic based on variables:
+
+```text
+If {{routes.order_total}} > 100:
+  Send to: "High Value Customer Route"
+Else:
+  Send to: "Standard Customer Route"
+```
+
+<Note>
+  Conditional logic availability varies by node type. Check specific node documentation for details.
+</Note>
+
+## Debugging Variables
+
+If variables aren't appearing correctly:
+
+1. **Check spelling**: Variable names are case-sensitive
+2. **Verify extraction**: Review conversation logs to confirm variables were extracted
+3. **Test syntax**: Use `{{variable_name}}` not `{variable_name}` or `{{{variable_name}}}`
+4. **Check scope**: Ensure the variable is available in the current node
+
+### Viewing Extracted Variables
+
+To see what variables were extracted:
+
+1. Navigate to **Voice Logs**, **Email Logs**, or **SMS Logs**
+2. Click on a conversation
+3. Look for the **Variables Extracted** section
+
+## Variable Limitations
+
+<Warning>
+  Be aware of these limitations:
+
+  - Variables must be extracted before they can be used
+  - Voice routing requires prompts that explicitly ask for variables
+  - Some special characters in variable values may need escaping
+  - Very long variable values may be truncated in some contexts
+</Warning>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Voice Routing" icon="phone" href="/platform/voice/routing">
+    Learn how to extract variables from voice calls
+  </Card>
+  <Card title="Email Setup" icon="envelope" href="/platform/email/inbound-setup">
+    Configure email with variable extraction
+  </Card>
+  <Card title="SMS Setup" icon="comment-sms" href="/platform/sms/setup">
+    Use variables in SMS workflows
+  </Card>
+</CardGroup>

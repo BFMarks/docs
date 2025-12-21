@@ -14,6 +14,47 @@
   "navigation": {
     "tabs": [
       {
+        "tab": "Platform",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "platform/getting-started/overview",
+              "platform/getting-started/accessing-platform",
+              "platform/getting-started/knowledge-base"
+            ]
+          },
+          {
+            "group": "Voice Bot",
+            "pages": [
+              "platform/voice/incoming-voice",
+              "platform/voice/routing",
+              "platform/voice/analytics"
+            ]
+          },
+          {
+            "group": "SMS",
+            "pages": [
+              "platform/sms/setup"
+            ]
+          },
+          {
+            "group": "Email",
+            "pages": [
+              "platform/email/outbound-setup",
+              "platform/email/inbound-setup",
+              "platform/email/branding"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "platform/reference/variables"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Guides",
         "groups": [
           {

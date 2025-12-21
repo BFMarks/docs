@@ -1,0 +1,285 @@
+---
+title: 'Inbound Email Setup'
+description: 'Configure receiving and automatically responding to emails'
+---
+
+## Overview
+
+Inbound email allows your AI agent to receive emails and automatically respond based on your workflow configuration. This enables bi-directional email conversations with customers.
+
+## Prerequisites
+
+Before setting up inbound email:
+
+- Complete [outbound email setup](/platform/email/outbound-setup)
+- Wait for DNS to fully propagate (30-60 minutes after outbound setup)
+- Ensure your sending configuration is verified
+
+## Step 1: Access Inbound Configuration
+
+1. Navigate to **Settings** → **Email Sending**
+2. Click the **Inbound** tab
+3. You'll see the option to enable inbound parsing
+
+## Step 2: Add MX Records
+
+To receive emails, you need to add MX (Mail Exchange) records to your DNS:
+
+<img src="/images/mx-records.png" alt="MX records configuration" />
+
+### MX Record Configuration
+
+Add the following MX record to your DNS:
+
+<ParamField path="Type" type="string">
+  MX
+</ParamField>
+
+<ParamField path="Host/Name" type="string">
+  @ (or blank, representing your subdomain)
+
+  For `hola@elegi.cloom.ai`, this would be `elegi`
+</ParamField>
+
+<ParamField path="Points To" type="string">
+  `mx.sendgrid.net`
+</ParamField>
+
+<ParamField path="Priority" type="number">
+  10
+</ParamField>
+
+### Adding MX Records to Your DNS Provider
+
+The process is similar to adding CNAME records:
+
+<Steps>
+  <Step title="Access DNS Management">
+    Log in to your DNS provider and navigate to DNS management
+  </Step>
+
+  <Step title="Add MX Record">
+    Click "Add Record" and select "MX" type
+  </Step>
+
+  <Step title="Enter Values">
+    - Host: Your subdomain or @ for root
+    - Priority: 10
+    - Points to: `mx.sendgrid.net`
+  </Step>
+
+  <Step title="Save Changes">
+    Save the record and wait for DNS propagation (30-60 minutes)
+  </Step>
+</Steps>
+
+<Warning>
+  DNS propagation takes time. Wait at least 30 minutes after adding MX records before testing.
+</Warning>
+
+## Step 3: Create Inbound Email Node
+
+In your Cloom AI workflow:
+
+1. Click **Create Agent Journey** or **Start & Integrate**
+2. Select **Incoming Email** as the start node type
+3. Navigate to the **Email Addresses** tab
+
+## Step 4: Assign Email Addresses
+
+Specify which email addresses should trigger this workflow:
+
+<ParamField path="Assigned Addresses" type="array" required>
+  Email addresses that will trigger this workflow
+
+  Example: `hola@elegi.cloom.ai`
+</ParamField>
+
+<img src="/images/email-address-assignment.png" alt="Email address assignment" />
+
+<Note>
+  Each email address can only be assigned to **one workflow** at a time. The system prevents duplicate assignments.
+</Note>
+
+## Email Routing
+
+Configure how your AI handles incoming emails:
+
+### Route Configuration
+
+Unlike voice calls, email routing works with automatic follow-ups:
+
+1. Navigate to the **Routes** tab on your incoming email node
+2. Click **+ Add Custom Route**
+3. Configure route settings
+
+### Follow-up Email Prompt
+
+Set up instructions for the AI when responses are received:
+
+**Mandatory Variables**
+- Select which variables MUST be extracted before moving to the next node
+- The AI will send follow-up emails asking for missing information
+
+**AI Instructions for Follow-up**
+```text Example
+Politely ask the user to confirm their tracking number and
+the date they made the order.
+```
+
+<img src="/images/email-follow-up.png" alt="Email follow-up configuration" />
+
+### How Email Routing Works
+
+<Steps>
+  <Step title="Email Received">
+    Customer sends an email to your configured address
+  </Step>
+
+  <Step title="AI Analysis">
+    The AI analyzes the email content and selects the appropriate route
+  </Step>
+
+  <Step title="Variable Extraction">
+    The AI attempts to extract all mandatory variables
+  </Step>
+
+  <Step title="Follow-up (if needed)">
+    If variables are missing, the AI sends a follow-up email requesting them
+  </Step>
+
+  <Step title="Route Completion">
+    Once all mandatory variables are collected, the workflow proceeds to the next node
+  </Step>
+</Steps>
+
+### Example Email Flow
+
+```
+Customer: "I haven't received my package yet. What's going on?"
+
+AI Response: "I'm sorry to hear you haven't received your package.
+I'd be happy to help track it down. Can you please provide your
+order number and the date you placed the order?"
+
+Customer: "Order #123456 from December 10th"
+
+AI: [Extracts order_number=123456, order_date=Dec 10, proceeds to next node]
+```
+
+## Testing Inbound Email
+
+To test your inbound email setup:
+
+1. Ensure your workflow is **activated** (toggle in top left)
+2. Send an email from your personal email to your configured address
+3. Wait for the AI response (typically within 1-2 minutes)
+4. Reply to test the conversation flow
+5. Check **Email Logs** to review the interaction
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Clear Variable Requirements" icon="list-check">
+    Clearly specify what information you need in your routing instructions
+  </Accordion>
+
+  <Accordion title="Professional Tone" icon="briefcase">
+    Configure your brand voice to maintain professionalism in email responses
+  </Accordion>
+
+  <Accordion title="Response Time" icon="clock">
+    Monitor average response times to ensure customers receive timely replies
+  </Accordion>
+
+  <Accordion title="Knowledge Base" icon="book">
+    Upload relevant documents so your AI can provide accurate information
+  </Accordion>
+
+  <Accordion title="Escalation Path" icon="arrow-up-right-from-square">
+    Create routes for complex issues that should be forwarded to human agents
+  </Accordion>
+</AccordionGroup>
+
+## Email Logs
+
+View all email interactions:
+
+1. Navigate to your workflow
+2. Click the menu in the top right
+3. Select **Email Logs**
+
+Email logs show:
+- Original email content
+- AI responses
+- Variables extracted
+- Routes taken
+- Conversation threads
+
+## Variables in Emails
+
+Use extracted variables in subsequent email nodes:
+
+```
+Hello {{customer_name}},
+
+Thank you for reaching out about order {{order_number}}.
+
+We've located your order from {{order_date}} and can see...
+```
+
+See the [Variables Reference](/platform/reference/variables) for more details.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Not Receiving Emails" icon="inbox">
+    - Verify MX records are correctly configured
+    - Check DNS propagation (can take up to 48 hours)
+    - Ensure the email address is assigned to a workflow
+    - Confirm the workflow is activated
+    - Test by sending from different email providers
+  </Accordion>
+
+  <Accordion title="AI Not Responding" icon="robot">
+    - Check Email Logs to see if the email was received
+    - Verify routing instructions are clear
+    - Ensure the workflow isn't paused or erroring
+    - Review knowledge base documents for relevance
+  </Accordion>
+
+  <Accordion title="Variables Not Extracting" icon="exclamation">
+    - Make mandatory variables clear in your instructions
+    - Review email logs to see what the AI extracted
+    - Adjust routing instructions to be more specific
+    - Test with sample emails containing the expected data
+  </Accordion>
+
+  <Accordion title="Emails Going to Customer Spam" icon="shield">
+    - Verify SPF/DKIM records from outbound setup
+    - Check domain reputation
+    - Avoid spam trigger words in email content
+    - Include an unsubscribe option
+  </Accordion>
+</AccordionGroup>
+
+## Security Considerations
+
+<Warning>
+  Remember that once you configure inbound email for a domain:
+
+  - **All emails** to that domain will be routed through Cloom AI
+  - This is why we recommend using a subdomain or separate domain
+  - Never use your primary business email domain
+</Warning>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Email Branding" icon="palette" href="/platform/email/branding">
+    Customize your email appearance and voice
+  </Card>
+  <Card title="Variables Reference" icon="code" href="/platform/reference/variables">
+    Learn how to use variables effectively
+  </Card>
+</CardGroup>

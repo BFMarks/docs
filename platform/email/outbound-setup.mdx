@@ -1,0 +1,257 @@
+---
+title: 'Outbound Email Setup'
+description: 'Configure email sending with SendGrid integration'
+---
+
+## Overview
+
+Cloom AI uses SendGrid to send authenticated emails on your behalf. This guide walks you through configuring your domain to send emails through Cloom AI.
+
+## Prerequisites
+
+Before you begin, you'll need:
+
+- Access to your domain's DNS settings (GoDaddy, Namecheap, Google Domains, etc.)
+- A dedicated email address or subdomain for sending
+- Administrative access to your Cloom AI account
+
+## Choosing Your Sending Domain
+
+<Warning>
+  **Important:** Do not use your root domain (e.g., `help@company.com`) as your sending address.
+
+  Cloom AI will be able to intercept all emails sent to that domain. For example, if you set up `help@company.com`, Cloom can read all emails sent to `*@company.com`.
+</Warning>
+
+### Recommended Approaches
+
+<AccordionGroup>
+  <Accordion title="Subdomain" icon="sitemap">
+    **Best Practice:** Use a subdomain
+
+    `something@ai.company.com` (e.g., `help@ai.tesla.com`)
+
+    This isolates your AI email handling from your main domain.
+  </Accordion>
+
+  <Accordion title="Separate Domain" icon="globe">
+    **Alternative:** Create a dedicated domain
+
+    `help@company-support.com` (e.g., `help@tesla-team.com`)
+
+    This provides complete separation from your primary domain.
+  </Accordion>
+</AccordionGroup>
+
+## Step 1: Access Email Configuration
+
+1. Navigate to **Settings** from the main menu
+2. Click **Email Sending** tab
+3. Click **Outbound** section
+4. Click **+ Create Sending Configuration**
+
+<img src="/images/email-sending-config.png" alt="Email sending configuration" />
+
+## Step 2: Create Sending Configuration
+
+Enter your email details:
+
+<ParamField path="Sending Email Address" type="string" required>
+  The complete email address you want to send from
+
+  Example: `hola@elegi.cloom.ai`
+</ParamField>
+
+<ParamField path="Verified Domain" type="string" required>
+  The domain name (extracted automatically from your email address)
+
+  Example: `elegi.cloom.ai`
+</ParamField>
+
+<ParamField path="SendGrid Subdomain" type="string" required>
+  A subdomain prefix for email authentication (usually your brand or "mail")
+
+  Example: `s1`
+</ParamField>
+
+### DKIM and SPF Configuration
+
+<Note>
+  Cloom AI automatically manages SPF and DKIM email authentication to improve deliverability and prevent spoofing.
+</Note>
+
+Check the box to enable:
+- ✅ **Enable Automatic SPF/DKIM Management** (Recommended)
+
+## Step 3: Add DNS Records
+
+After creating your sending configuration, you'll receive DNS records to add to your domain:
+
+<img src="/images/dns-records.png" alt="DNS records for email authentication" />
+
+### DNS Record Types
+
+You'll need to add three types of CNAME records:
+
+<Steps>
+  <Step title="Domain Verification Record">
+    **Type:** CNAME
+
+    **Host/Name:** `s1._domainkey.elegi`
+
+    **Value:** Provided by Cloom AI
+
+    **Purpose:** Verifies domain ownership
+  </Step>
+
+  <Step title="DKIM Authentication Records">
+    **Type:** CNAME (2 records)
+
+    **Host/Name:** `s1._domainkey` and `s2._domainkey`
+
+    **Value:** Provided by Cloom AI
+
+    **Purpose:** Email authentication and deliverability
+  </Step>
+</Steps>
+
+## Step 4: Update Your DNS Provider
+
+The exact steps depend on your DNS provider:
+
+### Example: Adding CNAME Records
+
+Most DNS providers follow a similar pattern:
+
+1. Log in to your DNS provider (GoDaddy, Namecheap, Cloudflare, etc.)
+2. Navigate to DNS management for your domain
+3. Click **Add Record**
+4. Select **CNAME** as record type
+5. Enter the **Host/Name** from Cloom AI
+6. Enter the **Value/Points To** from Cloom AI
+7. Set TTL to **Automatic** or **3600**
+8. Save the record
+9. Repeat for all CNAME records
+
+<img src="/images/dns-example.png" alt="Example DNS configuration" />
+
+### Common DNS Providers
+
+<AccordionGroup>
+  <Accordion title="GoDaddy" icon="globe">
+    1. Go to DNS Management
+    2. Click "Add" under Records
+    3. Select "CNAME" type
+    4. Enter Host and Points to values
+    5. Click "Save"
+  </Accordion>
+
+  <Accordion title="Namecheap" icon="globe">
+    1. Go to Advanced DNS
+    2. Click "Add New Record"
+    3. Select "CNAME Record"
+    4. Enter Host and Target values
+    5. Click "Save Changes"
+  </Accordion>
+
+  <Accordion title="Cloudflare" icon="cloud">
+    1. Go to DNS settings
+    2. Click "Add Record"
+    3. Select "CNAME"
+    4. Enter Name and Target
+    5. Toggle proxy status to "DNS only"
+    6. Click "Save"
+  </Accordion>
+
+  <Accordion title="Google Domains" icon="globe">
+    1. Go to DNS settings
+    2. Scroll to Custom Records
+    3. Select "CNAME" type
+    4. Enter Host name and Data
+    5. Click "Add"
+  </Accordion>
+</AccordionGroup>
+
+## Step 5: Verify Configuration
+
+DNS changes can take 30-60 minutes to propagate.
+
+Once the DNS has propagated:
+
+1. Return to your email configuration in Cloom AI
+2. Click the **Verify** button
+3. Wait for confirmation that records are validated
+
+<Check>
+  ✅ **Success!** Your domain is now verified and ready to send emails.
+</Check>
+
+### Verification Failed?
+
+If verification fails:
+
+- **Wait longer**: DNS propagation can take up to 48 hours
+- **Check records**: Ensure CNAME records were entered exactly as provided
+- **Remove extra characters**: Some DNS providers add the domain automatically; avoid duplication
+- **Contact support**: Reach out to your Cloom AI representative for assistance
+
+## Testing Email Sending
+
+Once verified, test your email setup:
+
+1. Create an outbound email node in a workflow
+2. Add a test recipient email address
+3. Send a test email
+4. Check that it arrives and is not marked as spam
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Emails Going to Spam" icon="shield">
+    - Verify all DNS records are correctly configured
+    - Check that SPF/DKIM are passing (use a tool like mail-tester.com)
+    - Ensure your sending domain has a good reputation
+    - Add an unsubscribe link to your emails
+  </Accordion>
+
+  <Accordion title="DNS Records Not Validating" icon="triangle-exclamation">
+    - Double-check for typos in CNAME records
+    - Ensure you didn't include quotes in the values
+    - Verify the subdomain prefix matches your configuration
+    - Contact your DNS provider's support if needed
+  </Accordion>
+
+  <Accordion title="Cannot Add CNAME Records" icon="ban">
+    - Some hosts don't allow CNAME records on root domains
+    - Try using a subdomain instead
+    - Check if your DNS provider has specific formatting requirements
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Use Subdomains" icon="sitemap">
+    Always use a subdomain or separate domain for AI email handling
+  </Card>
+  <Card title="Monitor Reputation" icon="chart-line">
+    Keep an eye on your email deliverability and bounce rates
+  </Card>
+  <Card title="Warm Up Domain" icon="temperature-arrow-up">
+    Start with low volume and gradually increase to build reputation
+  </Card>
+  <Card title="Test Regularly" icon="vial">
+    Send test emails to different providers (Gmail, Outlook, Yahoo)
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Inbound Email Setup" icon="inbox" href="/platform/email/inbound-setup">
+    Configure receiving and responding to emails
+  </Card>
+  <Card title="Email Branding" icon="palette" href="/platform/email/branding">
+    Customize your email appearance
+  </Card>
+</CardGroup>

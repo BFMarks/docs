@@ -1,0 +1,117 @@
+---
+title: 'Knowledge Base'
+description: 'Upload and manage knowledge base documents for your AI agents'
+---
+
+## Overview
+
+The Knowledge Base feature allows you to upload PDF documents that your AI agents can reference during voice, SMS, and email conversations. This gives your bots domain expertise and helps them provide accurate, context-aware responses.
+
+## Adding Knowledge Base Documents
+
+To add a knowledge base document:
+
+1. Navigate to **Knowledge Base** from the main menu
+2. Click **Upload PDF** or drag and drop your PDF file
+3. Wait for the document to process (processing time varies based on document size)
+4. Assign the document to specific workflows or leave it available business-wide
+
+<img src="/images/knowledge-base-upload.png" alt="Upload knowledge base document" />
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Document Size" icon="file">
+    **Recommended:** Less than 50 pages
+
+    **Ideal:** 20 pages or fewer
+
+    Smaller, focused documents tend to provide better results than large, comprehensive manuals.
+  </Accordion>
+
+  <Accordion title="Document Format" icon="file-pdf">
+    - Use well-formatted PDFs with clear headings
+    - Ensure text is selectable (not scanned images)
+    - Include a table of contents for longer documents
+    - Break complex topics into separate, focused documents
+  </Accordion>
+
+  <Accordion title="Content Organization" icon="list">
+    - Use clear, descriptive section headers
+    - Write in a Q&A format when possible
+    - Include specific examples and use cases
+    - Avoid overly technical jargon unless necessary
+  </Accordion>
+</AccordionGroup>
+
+## Assigning to Workflows
+
+You can control which workflows have access to each knowledge base document:
+
+<Steps>
+  <Step title="Upload Document">
+    Upload your PDF to the knowledge base
+  </Step>
+  <Step title="Select Workflows">
+    Choose specific workflows that should have access to this document
+  </Step>
+  <Step title="Business-Wide Access">
+    Alternatively, leave it unassigned to make it available to all workflows
+  </Step>
+</Steps>
+
+## Processing Status
+
+After uploading, you can monitor the processing status:
+
+- **Processing** - Document is being analyzed and indexed
+- **Ready** - Document is available for your agents to use
+- **Error** - There was an issue processing the document
+
+<Note>
+  Processing typically takes 1-5 minutes depending on document size. The page automatically updates every 3 seconds.
+</Note>
+
+## How Agents Use Knowledge Base
+
+Once uploaded and processed, your AI agents will:
+
+1. Automatically search the knowledge base when relevant questions are asked
+2. Extract accurate information to include in responses
+3. Reference specific sections to provide detailed answers
+4. Maintain conversation context while accessing knowledge base information
+
+<Tip>
+  Test your knowledge base by asking your bot questions that should be answered by the uploaded documents.
+</Tip>
+
+## Managing Documents
+
+### Viewing Documents
+
+All uploaded documents are listed in the Knowledge Base section with:
+- Document name
+- Upload date
+- Processing status
+- Assigned workflows
+
+### Downloading Documents
+
+Click the **Download** button next to any document to retrieve the original PDF.
+
+### Deleting Documents
+
+To remove a document from the knowledge base:
+
+1. Click the **Delete** button next to the document
+2. Confirm the deletion
+
+<Warning>
+  Deleting a knowledge base document is permanent and will immediately affect any workflows using that document.
+</Warning>
+
+## Next Steps
+
+- [Set up voice bot routing](/platform/voice/routing)
+- [Configure email workflows](/platform/email/inbound-setup)
+- [Learn about variables](/platform/reference/variables)
